@@ -1,0 +1,23 @@
+// Assuming you have imported 'dates_to_unix_timestamps.json' as a JavaScript object
+import data from './dates_to_unix_timestamps.json';
+
+// Function to generate a dropdown menu
+const generateDropdownMenu = () => {
+    // Create a select element
+    const selectElement = document.createElement('select');
+    selectElement.id = 'dateDropdown';
+
+    // Add options to the select element
+    Object.keys(data).forEach(date => {
+        const option = document.createElement('option');
+        option.value = date;
+        option.textContent = date;
+        selectElement.appendChild(option);
+    });
+
+    // Append the select element to the DOM
+    document.body.appendChild(selectElement);
+};
+
+// Call the function to generate the dropdown menu
+generateDropdownMenu();
