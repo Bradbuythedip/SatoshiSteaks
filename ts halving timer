@@ -1,0 +1,29 @@
+// Constants
+const BLOCKS_PER_HALVING = 210000;
+const AVERAGE_TIME_PER_BLOCK = 10; // minutes
+
+// Function to fetch the current block height and calculate the halving countdown
+const fetchHalvingCountdown = async () => {
+    try {
+        const response = await fetch('https://blockchain.info/latestblock');
+        const blockData = await response.json();
+        const currentBlockHeight = blockData.height;
+
+        // Calculate the remaining blocks until the next halving event
+        const lastHalvingBlock = Math.floor(currentBlockHeight / BLOCKS_PER_HALVING) * BLOCKS_PER_HALVING;
+        const blocksUntilNextHalving = BLOCKS_PER_HALVING - (currentBlockHeight - lastHalvingBlock);
+
+        // Estimate time until next halving
+        const minutesUntilNextHalving = blocksUntilNextHalving * AVERAGE_TIME_PER_BLOCK;
+        const estimatedTime = new Date();
+        estimatedTime.setMinutes(estimatedTime.getMinutes() + minutesUntilNextHalving);
+
+        // Display the countdown
+        console.log(`Estimated time until next Bitcoin halving: ${estimatedTime.toISOString()}`);
+    } catch (e) {
+        console.error(`An error occurred: ${e}`);
+    }
+};
+
+// Refresh every 10 minutes
+setInterval(fetchHalvingCountdown, 600000);
